@@ -274,6 +274,13 @@ Un texte creux dont on a retiré les marqueurs reste un texte creux, et retomber
 
 ---
 
+### X5 — Imposer des figures de style par quota (mesuré : contre-productif)
+Tirer au sort des "gestes éditoriaux" (phrase nominale, question-réponse, reprise lexicale...) et les
+imposer au réécrivain pour casser l'uniformité inter-sections. Mesuré sur contenu réel : le score
+détecteur MONTE (52 % → 67 %) — les figures plaquées par quota produisent une texture maniérée que
+le classifieur repère mieux que l'uniformité qu'elles remplaçaient. La variance ne se prescrit pas
+à la pièce : elle doit émerger de la réécriture libre.
+
 ## 8. Leviers efficaces, par ordre d'impact
 
 1. **Casser les régularités à la génération** (prompts qui imposent la variance de phrases, des attaques de sections différentes, des plans asymétriques) — prévenir coûte moins cher que corriger.
