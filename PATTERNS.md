@@ -234,6 +234,30 @@ Aucun auteur, aucune source primaire, aucune donnée propriétaire.
 
 ---
 
+## 6 bis. Signatures mesurées par analyse de corpus (C) — spécifiques au français
+
+Résultats d'une analyse différentielle menée sur corpus réel : 95 pages web écrites par des humains
+vs 28 textes générés par LLM (même langue, même secteur — assurance/prévoyance, ~1,1 M de caractères).
+Effets exprimés en d de Cohen ; seuls les effets moyens à forts sont listés. Ces signatures sont
+absentes des catalogues publics, qui se concentrent sur le lexique et la typographie.
+
+| # | Signature | Humain | Généré | Effet | Correction |
+|---|---|---|---|---|---|
+| C1 | **Modalisateurs** ("peut", "souvent", "généralement", "selon les…", "notamment", "certains") pour 1000 mots | ~10 | ~26 | **+2.76** | La signature dominante. Affirmer directement ce qui est établi ; garder au plus un conditionnel prudent par paragraphe, là où l'incertitude est réelle |
+| C2 | **Parenthèses** pour 1000 mots | ~5,6 | ~0,2 | **-1.42** | 1 à 2 parenthèses réflexives par section |
+| C3 | **Diversité lexicale** (mots uniques / total) | ~0,41 | ~0,33 | **-1.41** | Varier les verbes supports ("permettre", "prévoir" en boucle) ; la restructuration profonde aide plus que la substitution |
+| C4 | **Nominalisations** (-tion, -ment, -ité…) pour 1000 mots | ~63 | ~79 | **+1.18** | Verbaliser : "vous pouvez résilier" plutôt que "la résiliation est possible" |
+| C5 | **Première personne** ("je", "nous", "on") pour 1000 mots | ~4,7 | ~0,8 | **-0.93** | À doser selon la charte éditoriale — certains contextes l'interdisent légitimement |
+| C6 | **Densité de chiffres** pour 1000 mots | ~19 | ~7 | **-0.88** | Conserver tous les chiffres sourcés sans les arrondir ; jamais en inventer |
+| C7 | **Questions dans la prose** (% des phrases) | ~5 % | ~1 % | **-0.83** | Une question par section quand c'est naturel |
+| C8 | **Deux-points** pour 1000 mots | ~7 | ~10 | +0.63 | Plafonner ; casser le moule "Accroche : explication" répété |
+
+Méthodologie reproductible : le script d'analyse compare n'importe quel couple de corpus (voir
+`audit.py` qui intègre ces repères en métriques C1-C6). À recalibrer par secteur : les valeurs
+absolues varient selon le domaine, les écarts relatifs se sont montrés stables.
+
+---
+
 ## 7. Ce qui ne fonctionne pas (X) — à ne pas faire
 
 ### X1 — Substitution de synonymes / paraphrase légère

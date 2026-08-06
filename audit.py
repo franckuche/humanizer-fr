@@ -49,7 +49,20 @@ NEG_PARALLEL = re.compile(
 COPULA_AVOIDANCE = re.compile(
     r"\b(?:constitue(?:nt)?|représente(?:nt)?|s'impose(?:nt)? comme|se positionne(?:nt)? comme)\b")
 
+# Signatures mesurées par analyse différentielle de corpus (95 pages web humaines vs 28 textes
+# générés, français, secteur assurance) — repères humains indiqués dans le rapport.
+HEDGES_CORPUS = re.compile(
+    r"\b(?:peut|peuvent|pourrai(?:t|ent)|parfois|souvent|généralement|le plus souvent"
+    r"|selon (?:les?|la|votre|vos|certains)|dans la majorité|notamment|éventuel(?:le)?s?|certain(?:e)?s)\b", re.I)
+NOMINALIZATIONS = re.compile(r"\b\w{4,}(?:tion|sion|ment|ance|ence|age|ité)s?\b", re.I)
+FIRST_PERSON = re.compile(r"\b(?:je|j'|nous|on)\b", re.I)
+
 SUPERSCRIPTS = "⁰¹²³⁴⁵⁶⁷⁸⁹"
+
+
+def _lexical_diversity(text: str) -> float:
+    words = [w.lower() for w in re.findall(r"[\w'àâäéèêëïîôöùûüç-]+", text)]
+    return round(len(set(words)) / max(len(words), 1), 2)
 
 
 def prose_sentences(text: str) -> list[str]:
@@ -102,6 +115,12 @@ def audit(label: str, text: str) -> dict:
         "S2 parallélismes négatifs": len(NEG_PARALLEL.findall(text)),
         "S3 participiales plaquées": len(PARTICIPIAL.findall(text)),
         "S4 évitement du verbe être": len(COPULA_AVOIDANCE.findall(text)),
+        "C1 modalisateurs/1000 mots (repère humain: ~10, généré: ~26)": round(1000 * len(HEDGES_CORPUS.findall(text)) / max(len(text.split()), 1), 1),
+        "C2 nominalisations/1000 (humain: ~63, généré: ~79)": round(1000 * len(NOMINALIZATIONS.findall(text)) / max(len(text.split()), 1), 1),
+        "C3 deux-points/1000 (humain: ~7, généré: ~10)": round(1000 * text.count(":") / max(len(text.split()), 1), 1),
+        "C4 diversité lexicale (humain: ~0.41, généré: ~0.33)": _lexical_diversity(text),
+        "C5 chiffres/1000 mots (humain: ~19, généré: ~7)": round(1000 * len(re.findall(r"\d", text)) / 3 / max(len(text.split()), 1), 1),
+        "C6 1re personne/1000 (voulu à 0 si neutralité éditoriale)": round(1000 * len(FIRST_PERSON.findall(text)) / max(len(text.split()), 1), 1),
         "T1 tirets cadratins / demi-cadratins": f"{text.count('—')} / {text.count('–')}",
         "T2 apostrophes typo (’) / droites (') — uniformité": f"{apos_typo} / {apos_droite} — {apos_uniformity:.0%}",
         "T3 guillemets anglais courbes (“”)": text.count("“") + text.count("”"),
